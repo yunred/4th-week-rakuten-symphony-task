@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import * as T from "types";
+import { sizeConverter } from "utils/DataConverter";
 
 interface FileListProps {
   fileList: T.FileType[];
@@ -11,12 +12,12 @@ const FileListItemInfo: React.FC<FileListProps> = ({ fileList }) => {
     <>
       {fileList.map((item, idx) => {
         return (
-          <FileListItem>
+          <FileListItem key={idx}>
             <FileItemInfo>
               <span />
               <span>{item.name}</span>
             </FileItemInfo>
-            <FileItemSize>{item.size} 가공 전</FileItemSize>
+            <FileItemSize>{sizeConverter(item.size)}</FileItemSize>
           </FileListItem>
         );
       })}
