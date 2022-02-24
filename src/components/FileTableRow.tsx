@@ -24,7 +24,7 @@ const FileTableRow: FC<FileTableRowProps> = ({FetchData}) => {
             </LinkImage>
             <LinkTexts>
               <LinkTitle>{FetchData.key}</LinkTitle>
-              <LinkUrl>{window.location.href}/{FetchData.key}</LinkUrl>
+              <LinkUrl>{window.location.href}{FetchData.key}</LinkUrl>
             </LinkTexts>
           </LinkInfo>
           <span />
