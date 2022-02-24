@@ -9,19 +9,19 @@ import * as T from "types";
 import { Data } from "MockData";
 
 function App() {
-  const [LinkFileData, setListFileData] = useState<T.FetchDataType[]>([]);
-  useEffect(() => {
-    fetch(C.FETCHURL)
+  const [LinkFileData, setListFileData] = useState<T.FetchDataType[]>([]); 
+  
+  useEffect(()=>{
+   fetch(C.FETCHURL)
       .then((res) => res.json())
       .then((data) => setListFileData(data));
   }, []);
-  console.log(LinkFileData);
-
-  return (
+  
+ return (
     <>
       <GlobalStyle />
       <Container>
-        <LinkPage />
+        <LinkPage LinkFileData={LinkFileData} />
         <DetailPage DetailData={Data} />
       </Container>
     </>
