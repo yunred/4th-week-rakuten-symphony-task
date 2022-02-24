@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 import Container from "components/Container";
 import DetailPage from "pages/DetailPage";
 import LinkPage from "pages/LinkPage";
@@ -18,13 +24,21 @@ function App() {
   }, []);
   
  return (
-    <>
-      <GlobalStyle />
-      <Container>
-        <LinkPage LinkFileData={LinkFileData} />
-        <DetailPage DetailData={Data} />
-      </Container>
-    </>
+  <Routes>
+          <Route path="/" element={<>
+            <GlobalStyle/>
+            <Container>
+              <LinkPage LinkFileData={LinkFileData}/>
+            </Container>
+          </>}/>
+          <Route path="/:key" element={<>
+            <GlobalStyle/>
+            <Container>
+              <DetailPage DetailData={Data}/>
+            </Container>
+          </>}/>
+            
+    </Routes>
   );
 }
 
