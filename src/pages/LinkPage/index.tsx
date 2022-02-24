@@ -3,8 +3,14 @@ import type { FC } from "react";
 import Avatar from "components/Avatar";
 import styled from "styled-components";
 import colors from "styles/colors";
+import * as T from 'types';
 
-const LinkPage: FC = () => {
+interface LinkPageProps {
+  LinkFileData: T.FetchDataType[];
+}
+
+const LinkPage: FC<LinkPageProps> = ({LinkFileData}) => {
+  console.log(LinkFileData);
   return (
     <>
       <Title>마이 링크</Title>

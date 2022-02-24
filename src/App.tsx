@@ -9,17 +9,18 @@ import * as T from 'types';
 
 function App() {
   const [LinkFileData, setListFileData] = useState<T.FetchDataType[]>([]); 
+  
   useEffect(()=>{
     fetch(C.FETCHURL)
       .then(res=> res.json())
       .then(data => setListFileData(data));
   }, []);
-  console.log(LinkFileData);
+  
  return (
     <>
       <GlobalStyle />
       <Container>
-        <LinkPage />
+        <LinkPage LinkFileData={LinkFileData} />
         <DetailPage />
       </Container>
     </>
