@@ -5,7 +5,7 @@ export const Data: T.FetchDataType = {
   expires_at: 1642033365,
   download_count: 0,
   count: 5,
-  size: 11117,
+  size: 10325535,
   summary: "logo.png",
   thumbnailUrl:
     "https://storage-fe.fastraffic.io/homeworks/thumbnails/15PMXQPE/1641860565.png",

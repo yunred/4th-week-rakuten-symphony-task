@@ -4,21 +4,27 @@ import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
 import FileListItemInfo from "components/FileListItemInfo";
+import { sizeConverter, DateConverter } from "utils/DataConverter";
 import * as T from "types";
 interface DetailePageProps {
   DetailData: T.FetchDataType;
 }
 
+const handleOnClick = () => {
+  window.alert("다운로드 되었습니다.");
+};
 const DetailPage: React.FC<DetailePageProps> = ({ DetailData }) => {
-  console.log(2 ** 10);
   return (
     <>
       <Header>
         <LinkInfo>
-          <Title>로고파일</Title>
-          <Url>localhost/7LF4MDLY 가공 전</Url>
+          <Title>{DetailData.sent?.subject}</Title>
+          <Url>
+            {window.location.href}
+            {DetailData.key}
+          </Url>
         </LinkInfo>
-        <DownloadButton>
+        <DownloadButton onClick={handleOnClick}>
           <img referrerPolicy="no-referrer" src="/svgs/download.svg" alt="" />
           받기
         </DownloadButton>
@@ -27,7 +33,7 @@ const DetailPage: React.FC<DetailePageProps> = ({ DetailData }) => {
         <Descrition>
           <Texts>
             <Top>링크 생성일</Top>
-            <Bottom>{DetailData.created_at} 가공 전</Bottom>
+            <Bottom>{DateConverter(DetailData.created_at)}</Bottom>
             <Top>메세지</Top>
             <Bottom>{DetailData.sent?.content}</Bottom>
             <Top>다운로드 횟수</Top>
@@ -39,7 +45,7 @@ const DetailPage: React.FC<DetailePageProps> = ({ DetailData }) => {
         </Descrition>
         <ListSummary>
           <div>총 {DetailData.count}개의 파일</div>
-          <div>{DetailData.size} 가공 전</div>
+          <div>{sizeConverter(DetailData.size)}</div>
         </ListSummary>
         <FileList>
           <FileListItemInfo fileList={DetailData.files} />
@@ -86,7 +92,7 @@ const Url = styled.a`
 
 const DownloadButton = styled(Button)`
   font-size: 16px;
-
+  cursor: pointer;
   img {
     margin-right: 8px;
   }
