@@ -1,1 +1,1 @@
-export const FETCHURL = "https://storage-fe.fastraffic.io/homeworks/links";
+export const FETCHURL = "/homeworks/links";
