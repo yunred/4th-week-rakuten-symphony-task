@@ -3,6 +3,7 @@ import type { FC } from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
+import FileListItemInfo from "components/FileListItemInfo";
 
 const DetailPage: FC = () => {
   return (
@@ -36,13 +37,7 @@ const DetailPage: FC = () => {
           <div>10.86KB</div>
         </ListSummary>
         <FileList>
-          <FileListItem>
-            <FileItemInfo>
-              <span />
-              <span>logo.png</span>
-            </FileItemInfo>
-            <FileItemSize>10.86KB</FileItemSize>
-          </FileListItem>
+          <FileListItemInfo />
         </FileList>
       </Article>
     </>
@@ -194,33 +189,5 @@ const FileList = styled.ul`
     border-color: ${colors.grey200};
   }
 `;
-
-const FileListItem = styled.li`
-  height: 72px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const FileItemInfo = styled.div`
-  flex-grow: 0;
-  max-width: 50%;
-  flex-basis: 50%;
-  display: flex;
-  align-items: center;
-
-  span:first-child {
-    width: 40px;
-    height: 40px;
-    margin-right: 12px;
-    display: inline-block;
-    background-image: url(/svgs/default.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
-`;
-
-const FileItemSize = styled.div``;
 
 export default DetailPage;
