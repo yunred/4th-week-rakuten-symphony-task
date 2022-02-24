@@ -1,48 +1,57 @@
 import React from "react";
 import type { FC } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import colors from "styles/colors";
 import Avatar from "components/Avatar";
+import * as T from "types";
 
-const FileTableRow = ():JSX.Element => {
+interface FileTableRowProps{
+  FetchData: T.FetchDataType
+}
+
+const FileTableRow: FC<FileTableRowProps> = ({FetchData}) => {
     return(
       <TableRow>
-            <TableCell>
-              <LinkInfo>
-                <LinkImage>
-                  <img
-                    referrerPolicy="no-referrer"
-                    src="/svgs/default.svg"
-                    alt=""
-                  />
-                </LinkImage>
-                <LinkTexts>
-                  <LinkTitle>로고파일</LinkTitle>
-                  <LinkUrl>localhost/7LF4MDLY</LinkUrl>
-                </LinkTexts>
-              </LinkInfo>
-              <span />
-            </TableCell>
-            <TableCell>
-              <span>파일개수</span>
-              <span>1</span>
-            </TableCell>
-            <TableCell>
-              <span>파일사이즈</span>
-              <span>10.86KB</span>
-            </TableCell>
-            <TableCell>
-              <span>유효기간</span>
-              <span>48시간 00분</span>
-            </TableCell>
-            <TableCell>
-              <span>받은사람</span>
-              <LinkReceivers>
-                <Avatar text="recruit@estmob.com" />
-              </LinkReceivers>
-            </TableCell>
-          </TableRow>
-          );
+        <TableCell>
+          <LinkInfo>
+            <LinkImage>
+              <img
+                referrerPolicy="no-referrer"
+                src={FetchData.thumbnailUrl.slice(32)}
+                alt=""
+              />
+            </LinkImage>
+            <LinkTexts>
+              <LinkTitle>{FetchData.key}</LinkTitle>
+              <LinkUrl>{window.location.href}/{FetchData.key}</LinkUrl>
+            </LinkTexts>
+          </LinkInfo>
+          <span />
+        </TableCell>
+        <TableCell>
+          <span>파일개수</span>
+          <span>{FetchData.count}</span>
+        </TableCell>
+        <TableCell>
+          <span>파일사이즈</span>
+          <span>{FetchData.size}</span>
+        </TableCell>
+        <TableCell>
+          <span>유효기간</span>
+          <span>48시간 00분</span>
+        </TableCell>
+        <TableCell>
+          <span>받은사람</span>
+          <LinkReceivers>
+            {
+              FetchData.sent? FetchData.sent.emails.map((emails, index) =>
+            <Avatar key={index} text={emails} />
+              ):<></>
+            }
+          </LinkReceivers>
+        </TableCell>
+      </TableRow>);
           
 }
 
