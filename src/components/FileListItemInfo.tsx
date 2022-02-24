@@ -1,16 +1,25 @@
 import React from "react";
 import styled from "styled-components";
+import * as T from "types";
 
-const FileListItemInfo = () => {
+interface FileListProps {
+  fileList: T.FileType[];
+}
+
+const FileListItemInfo: React.FC<FileListProps> = ({ fileList }) => {
   return (
     <>
-      <FileListItem>
-        <FileItemInfo>
-          <span />
-          <span>logo.png</span>
-        </FileItemInfo>
-        <FileItemSize>10.86KB</FileItemSize>
-      </FileListItem>
+      {fileList.map((item, idx) => {
+        return (
+          <FileListItem>
+            <FileItemInfo>
+              <span />
+              <span>{item.name}</span>
+            </FileItemInfo>
+            <FileItemSize>{item.size} 가공 전</FileItemSize>
+          </FileListItem>
+        );
+      })}
     </>
   );
 };

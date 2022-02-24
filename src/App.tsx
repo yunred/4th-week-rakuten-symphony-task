@@ -4,16 +4,17 @@ import DetailPage from "pages/DetailPage";
 import LinkPage from "pages/LinkPage";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "styles/GlobalStyle";
-import * as C from 'constant';
-import * as T from 'types';
+import * as C from "constant";
+import * as T from "types";
+import { Data } from "MockData";
 
 function App() {
   const [LinkFileData, setListFileData] = useState<T.FetchDataType[]>([]); 
   
   useEffect(()=>{
-    fetch(C.FETCHURL)
-      .then(res=> res.json())
-      .then(data => setListFileData(data));
+   fetch(C.FETCHURL)
+      .then((res) => res.json())
+      .then((data) => setListFileData(data));
   }, []);
   
  return (
@@ -21,7 +22,7 @@ function App() {
       <GlobalStyle />
       <Container>
         <LinkPage LinkFileData={LinkFileData} />
-        <DetailPage />
+        <DetailPage DetailData={Data} />
       </Container>
     </>
   );

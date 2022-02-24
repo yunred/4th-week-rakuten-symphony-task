@@ -4,14 +4,19 @@ import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
 import FileListItemInfo from "components/FileListItemInfo";
+import * as T from "types";
+interface DetailePageProps {
+  DetailData: T.FetchDataType;
+}
 
-const DetailPage: FC = () => {
+const DetailPage: React.FC<DetailePageProps> = ({ DetailData }) => {
+  console.log(2 ** 10);
   return (
     <>
       <Header>
         <LinkInfo>
           <Title>로고파일</Title>
-          <Url>localhost/7LF4MDLY</Url>
+          <Url>localhost/7LF4MDLY 가공 전</Url>
         </LinkInfo>
         <DownloadButton>
           <img referrerPolicy="no-referrer" src="/svgs/download.svg" alt="" />
@@ -22,22 +27,22 @@ const DetailPage: FC = () => {
         <Descrition>
           <Texts>
             <Top>링크 생성일</Top>
-            <Bottom>2022년 1월 12일 22:36 +09:00</Bottom>
+            <Bottom>{DetailData.created_at} 가공 전</Bottom>
             <Top>메세지</Top>
-            <Bottom>로고파일 전달 드립니다.</Bottom>
+            <Bottom>{DetailData.sent?.content}</Bottom>
             <Top>다운로드 횟수</Top>
-            <Bottom>1</Bottom>
+            <Bottom>{DetailData.download_count}</Bottom>
           </Texts>
           <LinkImage>
             <Image />
           </LinkImage>
         </Descrition>
         <ListSummary>
-          <div>총 1개의 파일</div>
-          <div>10.86KB</div>
+          <div>총 {DetailData.count}개의 파일</div>
+          <div>{DetailData.size} 가공 전</div>
         </ListSummary>
         <FileList>
-          <FileListItemInfo />
+          <FileListItemInfo fileList={DetailData.files} />
         </FileList>
       </Article>
     </>

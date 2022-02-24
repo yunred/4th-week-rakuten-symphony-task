@@ -7,7 +7,7 @@ export interface FileType {
 export interface SentType {
   subject: string;
   content: string;
-  email: string[];
+  emails: string[];
 }
 export interface FetchDataType {
   created_at: number;
