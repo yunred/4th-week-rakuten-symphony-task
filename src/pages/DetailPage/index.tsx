@@ -32,7 +32,7 @@ const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
           </Title>
           {isValidLink && <Url>{window.location.href}</Url>}
         </LinkInfo>
-        <DownloadButton onClick={handleOnClick} isValidLink={isValidLink}>
+        <DownloadButton onClick={handleOnClick} disabled={!isValidLink}>
           <img referrerPolicy="no-referrer" src="/svgs/download.svg" alt="" />
           {isValidLink ? "받기" : "만료됨"}
         </DownloadButton>
@@ -56,12 +56,14 @@ const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
               DetailData.thumbnailUrl.length - 3
             ) === "svg" ? (
               <Image
+                isValidLink={isValidLink}
                 style={{
                   backgroundImage: `url(/svgs/default.svg)`,
                 }}
               />
             ) : (
               <Image
+                isValidLink={isValidLink}
                 style={{
                   backgroundImage: `url(${DetailData.thumbnailUrl.slice(32)})`,
                 }}
@@ -120,14 +122,15 @@ const Url = styled.a`
   }
 `;
 
-const DownloadButton = styled(Button)<{ isValidLink: boolean }>`
+const DownloadButton = styled(Button)`
   font-size: 16px;
   cursor: pointer;
   img {
     margin-right: 8px;
   }
-  filter: ${(props) => (props.isValidLink ? "" : "brightness(50%)")};
-  pointer-events: ${(props) => (props.isValidLink ? "" : "none")};
+  &:disabled {
+    background-color: ${colors.grey900};
+  }
 `;
 
 const Article = styled.article`
@@ -192,13 +195,14 @@ const LinkImage = styled.div`
   }
 `;
 
-const Image = styled.span`
+const Image = styled.span<{ isValidLink: boolean }>`
   width: 120px;
   display: inline-block;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
   padding-bottom: 100%;
+  filter: ${(props) => (props.isValidLink ? "none" : "grayscale(1)")};
 `;
 
 const ListSummary = styled.div`
