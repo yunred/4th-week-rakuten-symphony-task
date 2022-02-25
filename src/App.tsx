@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Container from "components/Container";
 import DetailPage from "pages/DetailPage";
 import LinkPage from "pages/LinkPage";
@@ -15,29 +10,49 @@ import * as T from "types";
 import { Data } from "MockData";
 
 function App() {
-  const [LinkFileData, setListFileData] = useState<T.FetchDataType[]>([]); 
-  
-  useEffect(()=>{
-   fetch(C.FETCHURL)
+  const [LinkFileData, setListFileData] = useState<T.FetchDataType[]>([]);
+
+  useEffect(() => {
+    fetch(C.FETCHURL)
       .then((res) => res.json())
       .then((data) => setListFileData(data));
   }, []);
-  
- return (
-  <Routes>
-          <Route path="/" element={<>
-            <GlobalStyle/>
+
+  let keyArr: Array<string | undefined> = [];
+  if (LinkFileData.length > 0) {
+    console.log(LinkFileData);
+    LinkFileData.map((item, idex) => {
+      keyArr.push(item?.key);
+    });
+  }
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <GlobalStyle />
             <Container>
-              <LinkPage LinkFileData={LinkFileData}/>
+              <LinkPage LinkFileData={LinkFileData} />
             </Container>
-          </>}/>
-          <Route path="/:key" element={<>
-            <GlobalStyle/>
-            <Container>
-              <DetailPage DetailData={Data}/>
-            </Container>
-          </>}/>
-            
+          </>
+        }
+      />
+      <Route
+        path="/:key"
+        element={
+          <>
+            {LinkFileData.length > 0 && (
+              <>
+                <GlobalStyle />
+                <Container>
+                  <DetailPage LinkFileData={LinkFileData} keyArr={keyArr} />
+                </Container>
+              </>
+            )}
+          </>
+        }
+      />
     </Routes>
   );
 }
