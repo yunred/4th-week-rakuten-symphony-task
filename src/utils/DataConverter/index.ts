@@ -40,3 +40,9 @@ export const DateConverter = (num: number): string => {
     standard_minutes
   );
 };
+
+export const isValid = (num: number): boolean => {
+  let Today: number = new Date().getTime();
+  let ExpirationDate: number = (num + 3456000) * 1000;
+  return ExpirationDate - Today > 0 ? true : false;
+};
