@@ -5,20 +5,25 @@ import colors from "styles/colors";
 import Button from "components/Button";
 import FileListItemInfo from "components/FileListItemInfo";
 import { sizeConverter, DateConverter } from "utils/DataConverter";
+import { useParams } from "react-router-dom";
 import * as T from "types";
 interface DetailePageProps {
-  DetailData: T.FetchDataType;
+  LinkFileData: T.FetchDataType[];
+  keyArr: Array<string | undefined>;
 }
 
 const handleOnClick = () => {
   window.alert("다운로드 되었습니다.");
 };
-const DetailPage: React.FC<DetailePageProps> = ({ DetailData }) => {
+const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
+  const { key } = useParams();
+  let DetailData: T.FetchDataType = LinkFileData[keyArr.indexOf(key)];
+  console.log(keyArr);
   return (
     <>
       <Header>
         <LinkInfo>
-          <Title>{DetailData.sent?.subject}</Title>
+          <Title>{DetailData.sent ? DetailData.sent.subject : ""}</Title>
           <Url>
             {window.location.href}
             {DetailData.key}
@@ -35,12 +40,16 @@ const DetailPage: React.FC<DetailePageProps> = ({ DetailData }) => {
             <Top>링크 생성일</Top>
             <Bottom>{DateConverter(DetailData.created_at)}</Bottom>
             <Top>메세지</Top>
-            <Bottom>{DetailData.sent?.content}</Bottom>
+            <Bottom>{DetailData.sent ? DetailData.sent.content : ""}</Bottom>
             <Top>다운로드 횟수</Top>
             <Bottom>{DetailData.download_count}</Bottom>
           </Texts>
           <LinkImage>
-            <Image />
+            <Image
+              style={{
+                backgroundImage: `url(${DetailData.thumbnailUrl.slice(32)})`,
+              }}
+            />
           </LinkImage>
         </Descrition>
         <ListSummary>
@@ -163,7 +172,6 @@ const LinkImage = styled.div`
 const Image = styled.span`
   width: 120px;
   display: inline-block;
-  background-image: url(/svgs/default.svg);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;

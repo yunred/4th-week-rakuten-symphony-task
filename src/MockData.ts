@@ -8,12 +8,12 @@ export const Data: T.FetchDataType = {
   size: 10325535,
   summary: "logo.png",
   thumbnailUrl:
-    "https://storage-fe.fastraffic.io/homeworks/thumbnails/15PMXQPE/1641860565.png",
+    "https://storage-fe.fastraffic.io/homeworks/thumbnails/1795UQEJ/de6c12d9dc228cf2d0ab6d4b102895e6918007_1643003036390292190.jpg",
   files: [
     {
       key: "de6c12d9dc228cf2d0ab6d4b102895e6918007.jpg",
       thumbnailUrl:
-        "https://storage-fe.fastraffic.io/homeworks/thumbnails/static/image.svg",
+        "https://storage-fe.fastraffic.io/homeworks/thumbnails/15PMXQPE/662f2b22920a10dbb4cbd819d6f0786937208.png",
       name: "catalin-pop-noydSJIWMSg-unsplash.jpg",
       size: 4412960,
     },
@@ -47,9 +47,9 @@ export const Data: T.FetchDataType = {
       size: 3453733,
     },
   ],
-  sent: {
-    subject: "로고파일",
-    content: "로고파일 전달 드립니다.",
-    emails: ["recruit@estmob.com"],
-  },
+  // sent: {
+  //   subject: "로고파일",
+  //   content: "로고파일 전달 드립니다.",
+  //   emails: ["recruit@estmob.com"],
+  // },
 };

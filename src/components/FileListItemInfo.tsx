@@ -14,7 +14,11 @@ const FileListItemInfo: React.FC<FileListProps> = ({ fileList }) => {
         return (
           <FileListItem key={idx}>
             <FileItemInfo>
-              <span />
+              <span
+                style={{
+                  backgroundImage: `url(${item.thumbnailUrl.slice(32)})`,
+                }}
+              />
               <span>{item.name}</span>
             </FileItemInfo>
             <FileItemSize>{sizeConverter(item.size)}</FileItemSize>
@@ -44,7 +48,6 @@ const FileItemInfo = styled.div`
     height: 40px;
     margin-right: 12px;
     display: inline-block;
-    background-image: url(/svgs/default.svg);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
