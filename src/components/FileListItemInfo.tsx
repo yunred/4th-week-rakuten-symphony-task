@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import * as T from "types";
-import { sizeConverter } from "utils/DataConverter";
+import * as U from "utils/DataConverter";
 
 interface FileListProps {
   fileList: T.FileType[];
@@ -14,14 +14,23 @@ const FileListItemInfo: React.FC<FileListProps> = ({ fileList }) => {
         return (
           <FileListItem key={idx}>
             <FileItemInfo>
-              <span
-                style={{
-                  backgroundImage: `url(${item.thumbnailUrl.slice(32)})`,
-                }}
-              />
+              {item.thumbnailUrl.slice(item.thumbnailUrl.length - 3) ===
+              "svg" ? (
+                <span
+                  style={{
+                    backgroundImage: `url(/svgs/default.svg)`,
+                  }}
+                />
+              ) : (
+                <span
+                  style={{
+                    backgroundImage: `url(${item.thumbnailUrl.slice(32)})`,
+                  }}
+                />
+              )}
               <span>{item.name}</span>
             </FileItemInfo>
-            <FileItemSize>{sizeConverter(item.size)}</FileItemSize>
+            <FileItemSize>{U.sizeConverter(item.size)}</FileItemSize>
           </FileListItem>
         );
       })}

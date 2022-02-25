@@ -3,8 +3,9 @@ import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
 import FileListItemInfo from "components/FileListItemInfo";
-import { sizeConverter, DateConverter, isValid } from "utils/DataConverter";
 import { useParams } from "react-router-dom";
+import * as C from "constant";
+import * as U from "utils/DataConverter";
 import * as T from "types";
 interface DetailePageProps {
   LinkFileData: T.FetchDataType[];
@@ -24,11 +25,13 @@ const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
   let DetailData: T.FetchDataType = LinkFileData[keyArr.indexOf(key)];
   return (
     <>
-      {isValid(DetailData.expires_at) ? (
+      {U.isValid(DetailData.expires_at) ? (
         <>
           <Header>
             <LinkInfo>
-              <Title>{DetailData.sent?.subject}</Title>
+              <Title>
+                {DetailData.sent ? DetailData.sent.subject : "\u00a0"}
+              </Title>
               <Url>{window.location.href}</Url>
             </LinkInfo>
             <DownloadButton onClick={handleOnClick}>
@@ -45,26 +48,38 @@ const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
               <Texts>
                 <Top>링크 생성일</Top>
                 <Bottom>
-                  {DateConverter(DetailData.created_at + 3456000)}
+                  {U.DateConverter(DetailData.created_at + C.TIMEREVISION)}
                 </Bottom>
                 <Top>메세지</Top>
-                <Bottom>{DetailData.sent?.content}</Bottom>
+                <Bottom>
+                  {DetailData.sent ? DetailData.sent.content : "\u00a0"}
+                </Bottom>
                 <Top>다운로드 횟수</Top>
                 <Bottom>{DetailData.download_count}</Bottom>
               </Texts>
               <LinkImage>
-                <Image
-                  style={{
-                    backgroundImage: `url(${DetailData.thumbnailUrl.slice(
-                      32
-                    )})`,
-                  }}
-                />
+                {DetailData.thumbnailUrl.slice(
+                  DetailData.thumbnailUrl.length - 3
+                ) === "svg" ? (
+                  <Image
+                    style={{
+                      backgroundImage: `url(/svgs/default.svg)`,
+                    }}
+                  />
+                ) : (
+                  <Image
+                    style={{
+                      backgroundImage: `url(${DetailData.thumbnailUrl.slice(
+                        32
+                      )})`,
+                    }}
+                  />
+                )}
               </LinkImage>
             </Descrition>
             <ListSummary>
               <div>총 {DetailData.count}개의 파일</div>
-              <div>{sizeConverter(DetailData.size)}</div>
+              <div>{U.sizeConverter(DetailData.size)}</div>
             </ListSummary>
             <FileList>
               <FileListItemInfo fileList={DetailData.files} />
