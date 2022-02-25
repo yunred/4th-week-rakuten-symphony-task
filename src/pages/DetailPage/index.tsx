@@ -1,5 +1,4 @@
 import React from "react";
-import type { FC } from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
@@ -15,6 +14,10 @@ interface DetailePageProps {
 const handleOnClick = () => {
   window.alert("다운로드 되었습니다.");
 };
+const handleBackRoute = () => {
+  window.alert("잘못된 접근입니다.");
+  window.location.replace("/");
+};
 
 const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
   const { key } = useParams();
@@ -25,7 +28,7 @@ const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
         <>
           <Header>
             <LinkInfo>
-              <Title>{DetailData.sent ? DetailData.sent.subject : ""}</Title>
+              <Title>{DetailData.sent?.subject}</Title>
               <Url>{window.location.href}</Url>
             </LinkInfo>
             <DownloadButton onClick={handleOnClick}>
@@ -45,9 +48,7 @@ const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
                   {DateConverter(DetailData.created_at + 3456000)}
                 </Bottom>
                 <Top>메세지</Top>
-                <Bottom>
-                  {DetailData.sent ? DetailData.sent.content : ""}
-                </Bottom>
+                <Bottom>{DetailData.sent?.content}</Bottom>
                 <Top>다운로드 횟수</Top>
                 <Bottom>{DetailData.download_count}</Bottom>
               </Texts>
@@ -71,9 +72,7 @@ const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
           </Article>
         </>
       ) : (
-        <>
-          <div>잘못된 접근입니다</div>
-        </>
+        <>{handleBackRoute()}</>
       )}
     </>
   );
