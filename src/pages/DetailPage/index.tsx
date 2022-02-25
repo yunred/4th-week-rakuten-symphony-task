@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
@@ -15,80 +15,72 @@ interface DetailePageProps {
 const handleOnClick = () => {
   window.alert("다운로드 되었습니다.");
 };
-const handleBackRoute = () => {
-  window.alert("잘못된 접근입니다.");
-  window.location.replace("/");
-};
 
 const DetailPage: React.FC<DetailePageProps> = ({ LinkFileData, keyArr }) => {
   const { key } = useParams();
   let DetailData: T.FetchDataType = LinkFileData[keyArr.indexOf(key)];
+  const [isValidLink, setIsValidLink] = useState<boolean>(
+    U.isValid(DetailData.expires_at)
+  );
   return (
     <>
-      {U.isValid(DetailData.expires_at) ? (
-        <>
-          <Header>
-            <LinkInfo>
-              <Title>
-                {DetailData.sent ? DetailData.sent.subject : "\u00a0"}
-              </Title>
-              <Url>{window.location.href}</Url>
-            </LinkInfo>
-            <DownloadButton onClick={handleOnClick}>
-              <img
-                referrerPolicy="no-referrer"
-                src="/svgs/download.svg"
-                alt=""
+      <Header>
+        <LinkInfo>
+          <Title isValidLink={isValidLink}>
+            {isValidLink ? "" : "(만료된 파일)"}
+            {DetailData.sent ? DetailData.sent.subject : "\u00a0"}
+          </Title>
+          {isValidLink && <Url>{window.location.href}</Url>}
+        </LinkInfo>
+        <DownloadButton onClick={handleOnClick} isValidLink={isValidLink}>
+          <img referrerPolicy="no-referrer" src="/svgs/download.svg" alt="" />
+          {isValidLink ? "받기" : "만료됨"}
+        </DownloadButton>
+      </Header>
+      <Article>
+        <Descrition>
+          <Texts>
+            <Top>링크 생성일</Top>
+            <Bottom>
+              {U.DateConverter(DetailData.created_at + C.TIMEREVISION)}
+            </Bottom>
+            <Top>메세지</Top>
+            <Bottom>
+              {DetailData.sent ? DetailData.sent.content : "\u00a0"}
+            </Bottom>
+            <Top>다운로드 횟수</Top>
+            <Bottom>{DetailData.download_count}</Bottom>
+          </Texts>
+          <LinkImage>
+            {DetailData.thumbnailUrl.slice(
+              DetailData.thumbnailUrl.length - 3
+            ) === "svg" ? (
+              <Image
+                style={{
+                  backgroundImage: `url(/svgs/default.svg)`,
+                }}
               />
-              받기
-            </DownloadButton>
-          </Header>
-          <Article>
-            <Descrition>
-              <Texts>
-                <Top>링크 생성일</Top>
-                <Bottom>
-                  {U.DateConverter(DetailData.created_at + C.TIMEREVISION)}
-                </Bottom>
-                <Top>메세지</Top>
-                <Bottom>
-                  {DetailData.sent ? DetailData.sent.content : "\u00a0"}
-                </Bottom>
-                <Top>다운로드 횟수</Top>
-                <Bottom>{DetailData.download_count}</Bottom>
-              </Texts>
-              <LinkImage>
-                {DetailData.thumbnailUrl.slice(
-                  DetailData.thumbnailUrl.length - 3
-                ) === "svg" ? (
-                  <Image
-                    style={{
-                      backgroundImage: `url(/svgs/default.svg)`,
-                    }}
-                  />
-                ) : (
-                  <Image
-                    style={{
-                      backgroundImage: `url(${DetailData.thumbnailUrl.slice(
-                        32
-                      )})`,
-                    }}
-                  />
-                )}
-              </LinkImage>
-            </Descrition>
-            <ListSummary>
-              <div>총 {DetailData.count}개의 파일</div>
-              <div>{U.sizeConverter(DetailData.size)}</div>
-            </ListSummary>
-            <FileList>
-              <FileListItemInfo fileList={DetailData.files} />
-            </FileList>
-          </Article>
-        </>
-      ) : (
-        <>{handleBackRoute()}</>
-      )}
+            ) : (
+              <Image
+                style={{
+                  backgroundImage: `url(${DetailData.thumbnailUrl.slice(32)})`,
+                }}
+              />
+            )}
+          </LinkImage>
+        </Descrition>
+        <ListSummary>
+          <div>
+            {isValidLink ? `총 ${DetailData.count}개의 파일` : "만료된 파일"}
+          </div>
+          <div>{isValidLink ? `${U.sizeConverter(DetailData.size)}` : ""}</div>
+        </ListSummary>
+        <FileList>
+          {U.isValid(DetailData.expires_at) && (
+            <FileListItemInfo fileList={DetailData.files} />
+          )}
+        </FileList>
+      </Article>
     </>
   );
 };
@@ -104,13 +96,13 @@ const LinkInfo = styled.div`
   flex-grow: 1;
 `;
 
-const Title = styled.h3`
+const Title = styled.h3<{ isValidLink: boolean }>`
   margin: 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   line-height: 28px;
-  color: ${colors.grey700};
+  color: ${(props) => (props.isValidLink ? colors.grey700 : colors.grey500)};
   font-size: 20px;
 `;
 
@@ -128,12 +120,14 @@ const Url = styled.a`
   }
 `;
 
-const DownloadButton = styled(Button)`
+const DownloadButton = styled(Button)<{ isValidLink: boolean }>`
   font-size: 16px;
   cursor: pointer;
   img {
     margin-right: 8px;
   }
+  filter: ${(props) => (props.isValidLink ? "" : "brightness(50%)")};
+  pointer-events: ${(props) => (props.isValidLink ? "" : "none")};
 `;
 
 const Article = styled.article`
