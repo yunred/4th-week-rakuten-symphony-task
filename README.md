@@ -168,3 +168,4 @@
 ---
 
 ### ⚡구현 중 기술적 이슈들
+  - [SVG 이미지를 렌더하려 시도했던 노력들](https://humble-tachometer-f77.notion.site/SVG-456570efe2f64290b64c8422cf357eea)
