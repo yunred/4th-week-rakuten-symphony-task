@@ -25,39 +25,27 @@ const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
     setPeriod(U.ExpirationPeriod(FetchData.expires_at));
   }, 60000);
 
+  const handleLink = (): void => {
+    if (U.isValid(FetchData.expires_at)) {
+      window.location.assign(`/${FetchData.key}`);
+      return;
+    }
+  };
+
   const handleClipBoard = (): void => {
-    if (navigator.clipboard) {
-      //ClipBoardAPI 는 IE에서 지원하지않음
-      navigator.clipboard
-        .writeText(window.location.href + FetchData.key)
-        .then(() => {
-          alert(
-            `${window.location.href + FetchData.key} 주소가 복사되었습니다.`
-          );
-        })
-        .catch(() => {
-          alert("다시 시도해주세요.");
-        });
-      return;
-    }
-    if (document.queryCommandSupported("copy")) {
-      const textarea = document.createElement("textarea");
-      textarea.value = window.location.href + FetchData.key;
-      textarea.style.position = "fixed";
-      document.body.append(textarea);
-      textarea.focus();
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
-      alert(`${window.location.href + FetchData.key} 주소가 복사되었습니다.`);
-      return;
-    } else {
-      return alert("현재 브라우저는 복사하기가 지원되지 않습니다.");
-    }
+    navigator.clipboard
+      .writeText(window.location.href + FetchData.key)
+      .then(() => {
+        alert(`${window.location.href + FetchData.key} 주소가 복사되었습니다.`);
+      })
+      .catch(() => {
+        alert("다시 시도해주세요.");
+      });
+    return;
   };
   return (
     <TableRow>
-      <TableCell>
+      <TableCell onClick={handleLink}>
         <LinkInfo>
           <LinkImage>
             <img
@@ -69,7 +57,12 @@ const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
           <LinkTexts>
             <LinkTitle>{FetchData.key}</LinkTitle>
             {U.isValid(FetchData.expires_at) ? (
-              <LinkUrl onClick={() => handleClipBoard()}>
+              <LinkUrl
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleClipBoard();
+                }}
+              >
                 {window.location.href}
                 {FetchData.key}
               </LinkUrl>
@@ -82,7 +75,9 @@ const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
       </TableCell>
       <TableCell>
         <span>파일개수</span>
-        <span>{FetchData.count}</span>
+        <span>
+          {FetchData.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+        </span>
       </TableCell>
       <TableCell>
         <span>파일사이즈</span>
