@@ -1,7 +1,48 @@
 # 라쿠텐심포니 코리아 Frontend Developer 기술 과제
 
+### [Go Demo🚀](https://github.com/PreOnboardingTeam-16/)
+
+## Member
+
+<table>
+<tr>
+<td align="center"><a href="https://github.com/WongueShin"><img src="https://media.vlpt.us/images/yeonbee/post/a3b02f02-0826-4cc9-b63e-9ddce5fbd857/wongyu.jpg" width="50%" /></a></td>
+<td align="center"><a href="https://github.com/yunred"><img src="https://avatars.githubusercontent.com/u/84527643?v=4" width="40%" /></a></td>
+</tr>
+<tr>
+<td align="center"><b>신원규(팀장)</b></td>
+<td align="center"><b>김서윤</b></td>
+
+</tr>
+<tr>
+<td align="center"><b>FE Developer</b></td>
+<td align="center"><b>FE Developer</b></td>
+</tr>
+</table>
+
+<br />
+<table>
+<tr>
+<td align="center"><b>팀원<b></td>
+<td align="center"><b>역할</b></td>
+</tr>
+<tr>
+<td>신원규</td>
+<td> 프로젝트 매니지먼트 / 링크 목록 화면 </td>
+</tr>
+<tr>
+<td>김서윤</td>
+<td> 배너 / 링크 상세 화면</td>
+</tr>
+
+</table>
+
+<br/>
+  <br/>
+
 | 이 문제의 저작권은 라쿠텐 심포니 코리아 있으며, 지원자는 오로지 채용을 위한 목적으로만 이 문제를 활용할 수 있습니다. 안내사항에 따라 과제를 완성해주세요. |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
 
 .  
 ├─ <a name="#precautions">유의사항</a>  
@@ -118,3 +159,12 @@
   - `content`: 링크를 공유한 메일 내용 _(string)_
   - `emails`: 링크를 공유한 메일 목록 _(string[])_
     }
+
+  
+  <br/>
+
+## 이슈정리
+
+---
+
+### ⚡구현 중 기술적 이슈들
