@@ -47,12 +47,19 @@ const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
     <TableRow>
       <TableCell onClick={handleLink}>
         <LinkInfo>
-          <LinkImage>
+          <LinkImage>{
+            FetchData.thumbnailUrl.slice(FetchData.thumbnailUrl.length - 3) === 'svg'?
+            <img
+              referrerPolicy="no-referrer"
+              src="/svgs/default.svg"
+              alt=""
+            />:
             <img
               referrerPolicy="no-referrer"
               src={FetchData.thumbnailUrl.slice(32)}
               alt=""
             />
+          } 
           </LinkImage>
           <LinkTexts>
             <LinkTitle>{FetchData.key}</LinkTitle>
