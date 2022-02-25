@@ -4,13 +4,13 @@ import Avatar from "components/Avatar";
 import styled from "styled-components";
 import colors from "styles/colors";
 import FileTableRow from "components/FileTableRow";
-import * as T from 'types';
+import * as T from "types";
 
 interface LinkPageProps {
   LinkFileData: T.FetchDataType[];
 }
 
-const LinkPage: FC<LinkPageProps> = ({LinkFileData}) => {
+const LinkPage: FC<LinkPageProps> = ({ LinkFileData }) => {
   console.log(LinkFileData);
   return (
     <>
@@ -26,11 +26,9 @@ const LinkPage: FC<LinkPageProps> = ({LinkFileData}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {
-            LinkFileData.map((FetchData, index) => 
-              <FileTableRow key={index} FetchData = {FetchData}/>
-            )
-          }
+          {LinkFileData.map((FetchData, index) => (
+            <FileTableRow key={index} FetchData={FetchData} />
+          ))}
         </TableBody>
       </Table>
     </>

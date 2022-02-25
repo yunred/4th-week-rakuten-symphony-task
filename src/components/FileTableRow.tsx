@@ -18,6 +18,7 @@ const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
   const [Period, setPeriod] = useState<string>();
   //유효기간 48시간 이하
   //console.log(U.ExpirationPeriod(1642414932));
+
   useEffect(() => {
     setPeriod(U.ExpirationPeriod(FetchData.expires_at));
   }, []);
@@ -26,10 +27,8 @@ const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
   }, 60000);
 
   const handleLink = (): void => {
-    if (U.isValid(FetchData.expires_at)) {
-      window.location.assign(`/${FetchData.key}`);
-      return;
-    }
+    window.location.assign(`/${FetchData.key}`);
+    return;
   };
 
   const handleClipBoard = (): void => {
@@ -41,25 +40,28 @@ const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
       .catch(() => {
         alert("다시 시도해주세요.");
       });
+
     return;
   };
   return (
     <TableRow>
       <TableCell onClick={handleLink}>
         <LinkInfo>
-          <LinkImage>{
-            FetchData.thumbnailUrl.slice(FetchData.thumbnailUrl.length - 3) === 'svg'?
-            <img
-              referrerPolicy="no-referrer"
-              src="/svgs/default.svg"
-              alt=""
-            />:
-            <img
-              referrerPolicy="no-referrer"
-              src={FetchData.thumbnailUrl.slice(32)}
-              alt=""
-            />
-          } 
+          <LinkImage>
+            {FetchData.thumbnailUrl.slice(FetchData.thumbnailUrl.length - 3) ===
+            "svg" ? (
+              <img
+                referrerPolicy="no-referrer"
+                src="/svgs/default.svg"
+                alt=""
+              />
+            ) : (
+              <img
+                referrerPolicy="no-referrer"
+                src={FetchData.thumbnailUrl.slice(32)}
+                alt=""
+              />
+            )}
           </LinkImage>
           <LinkTexts>
             <LinkTitle>{FetchData.key}</LinkTitle>
