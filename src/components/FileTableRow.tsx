@@ -5,12 +5,16 @@ import styled from "styled-components";
 import colors from "styles/colors";
 import Avatar from "components/Avatar";
 import * as T from "types";
+import * as U from "utils/DataConverter";
+import * as C from 'constant';
+import useInterval from "utils/useInterval";
 
 interface FileTableRowProps{
   FetchData: T.FetchDataType
 }
 
 const FileTableRow: FC<FileTableRowProps> = ({FetchData}) => {
+    //console.log(`start : ${U.DateConverter(FetchData.created_at+C.TIMEREVISION)}`,`expired: ${U.DateConverter(FetchData.expires_at+C.TIMEREVISION)}`,`${new Date(new Date((FetchData.expires_at+C.TIMEREVISION)* 1000).getTime() - new Date().getTime())}`)
     return(
       <TableRow>
         <TableCell>
@@ -35,7 +39,7 @@ const FileTableRow: FC<FileTableRowProps> = ({FetchData}) => {
         </TableCell>
         <TableCell>
           <span>파일사이즈</span>
-          <span>{FetchData.size}</span>
+          <span>{U.sizeConverter(FetchData.size)}</span>
         </TableCell>
         <TableCell>
           <span>유효기간</span>
