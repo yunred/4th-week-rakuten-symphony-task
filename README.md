@@ -169,3 +169,7 @@
 
 ### ⚡구현 중 기술적 이슈들
   - [SVG 이미지를 렌더하려 시도했던 노력들](https://humble-tachometer-f77.notion.site/SVG-456570efe2f64290b64c8422cf357eea)
+  - CRA-proxy<br/>
+  API 서버에서 데이터를 가져오는데, CORS 정책위반 경고가 발생했습니다.<br/>
+  이를 해결하기 위해 프록시 서버를 배포해야하나 고민중에, CRA 에서 CORS 해결을 위한 프록시 서버 기능을 지원하는것을 알게되었습니다.<br/>
+  이를 이용해, CRA 프로젝트에서 https로 시작하는 절대경로가 아닌 모든 상대경로 url을 "https://storage-fe.fastraffic.io"로 리다이렉트 시키는 프록시 옵션을 활성화하며 해결했습니다.
