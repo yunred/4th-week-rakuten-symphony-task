@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -6,58 +6,73 @@ import colors from "styles/colors";
 import Avatar from "components/Avatar";
 import * as T from "types";
 import * as U from "utils/DataConverter";
-import * as C from 'constant';
+import * as C from "constant";
 import useInterval from "utils/useInterval";
 
-interface FileTableRowProps{
-  FetchData: T.FetchDataType
+interface FileTableRowProps {
+  FetchData: T.FetchDataType;
 }
 
-const FileTableRow: FC<FileTableRowProps> = ({FetchData}) => {
-    //console.log(`start : ${U.DateConverter(FetchData.created_at+C.TIMEREVISION)}`,`expired: ${U.DateConverter(FetchData.expires_at+C.TIMEREVISION)}`,`${new Date(new Date((FetchData.expires_at+C.TIMEREVISION)* 1000).getTime() - new Date().getTime())}`)
-    return(
-      <TableRow>
-        <TableCell>
-          <LinkInfo>
-            <LinkImage>
-              <img
-                referrerPolicy="no-referrer"
-                src={FetchData.thumbnailUrl.slice(32)}
-                alt=""
-              />
-            </LinkImage>
-            <LinkTexts>
-              <LinkTitle>{FetchData.key}</LinkTitle>
-              <LinkUrl>{window.location.href}{FetchData.key}</LinkUrl>
-            </LinkTexts>
-          </LinkInfo>
-          <span />
-        </TableCell>
-        <TableCell>
-          <span>파일개수</span>
-          <span>{FetchData.count}</span>
-        </TableCell>
-        <TableCell>
-          <span>파일사이즈</span>
-          <span>{U.sizeConverter(FetchData.size)}</span>
-        </TableCell>
-        <TableCell>
-          <span>유효기간</span>
-          <span>48시간 00분</span>
-        </TableCell>
-        <TableCell>
-          <span>받은사람</span>
-          <LinkReceivers>
-            {
-              FetchData.sent? FetchData.sent.emails.map((emails, index) =>
-            <Avatar key={index} text={emails} />
-              ):<></>
-            }
-          </LinkReceivers>
-        </TableCell>
-      </TableRow>);
-          
-}
+const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
+  //console.log(`start : ${U.DateConverter(FetchData.created_at+C.TIMEREVISION)}`,`expired: ${U.DateConverter(FetchData.expires_at+C.TIMEREVISION)}`,`${new Date(new Date((FetchData.expires_at+C.TIMEREVISION)* 1000).getTime() - new Date().getTime())}`)
+  const [Period, setPeriod] = useState<string>();
+  //유효기간 48시간 이하
+  //console.log(U.ExpirationPeriod(1642414932));
+  useEffect(() => {
+    setPeriod(U.ExpirationPeriod(FetchData.expires_at));
+  }, []);
+  useInterval(() => {
+    setPeriod(U.ExpirationPeriod(FetchData.expires_at));
+  }, 60000);
+
+  return (
+    <TableRow>
+      <TableCell>
+        <LinkInfo>
+          <LinkImage>
+            <img
+              referrerPolicy="no-referrer"
+              src={FetchData.thumbnailUrl.slice(32)}
+              alt=""
+            />
+          </LinkImage>
+          <LinkTexts>
+            <LinkTitle>{FetchData.key}</LinkTitle>
+            <LinkUrl>
+              {window.location.href}
+              {FetchData.key}
+            </LinkUrl>
+          </LinkTexts>
+        </LinkInfo>
+        <span />
+      </TableCell>
+      <TableCell>
+        <span>파일개수</span>
+        <span>{FetchData.count}</span>
+      </TableCell>
+      <TableCell>
+        <span>파일사이즈</span>
+        <span>{U.sizeConverter(FetchData.size)}</span>
+      </TableCell>
+      <TableCell>
+        <span>유효기간</span>
+        <span>{Period}</span>
+      </TableCell>
+      <TableCell>
+        <span>받은사람</span>
+        <LinkReceivers>
+          {FetchData.sent ? (
+            FetchData.sent.emails.map((emails, index) => (
+              <Avatar key={index} text={emails} />
+            ))
+          ) : (
+            <></>
+          )}
+        </LinkReceivers>
+      </TableCell>
+    </TableRow>
+  );
+};
 
 export default FileTableRow;
 

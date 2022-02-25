@@ -46,3 +46,25 @@ export const isValid = (num: number): boolean => {
   let ExpirationDate: number = (num + 3456000) * 1000;
   return ExpirationDate - Today > 0 ? true : false;
 };
+
+export const ExpirationPeriod = (num: number): string => {
+  let Today: number = new Date().getTime();
+  let ExpirationDate: number = (num + 3456000) * 1000;
+  let Period = ExpirationDate - Today;
+  if (Period > 172800000) {
+    return Math.trunc(Period / (1000 * 24 * 3600)) + "일";
+  }
+  if (Period < 172800000 && Period > 0) {
+    return (
+      Math.trunc(Period / (1000 * 3600)) +
+      "시간 " +
+      (
+        "0" +
+        Math.trunc(
+          Period / (1000 * 60) - Math.trunc(Period / (1000 * 3600)) * 60
+        )
+      ).slice(-2) +
+      "분"
+    );
+  } else return "만료됨";
+};
