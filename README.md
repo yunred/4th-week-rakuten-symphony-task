@@ -177,7 +177,13 @@
   - 이벤트 버블링<br/>
 components/FileTableRow.tsx에서 LinkUrl을 선택했을 때 이 요소에 할당된 핸들러(handleClipBoard())가 동작하고, 부모 요소의 핸들러(handleLink())가 동작하여 페이지가 이동됐습니다. 이것은 버블링(bubbling) 원리로 인해 생긴 문제였습니다. 버블링은 한 요소에 이벤트가 발생하면, 해당 요소의 이벤트부터 가장 최상단 조상요소를 만날 때 까지 과정이 반복되어 각각에 할당된 핸들러가 동작합니다. 이 문제는 해당 타겟 이벤트 핸들러에  클릭이벤트가 상위 요소로 전달되지 않게 처리하는 event.stopPropagation()을 사용해서 해결할 수 있습니다.
 
+<br/>
   
+  <h3>🛰배포 중 기술적 이슈들</h3>
+  
+  <li>프록시 서버<br/>
+  netlify를 이용해 배포를 진행하였습니다.<br/>
+  개발단계에서 사용했던 CRA의 프록시 기능이 배포시에 정상적으로 기능하지 못해서,<br/> heroku에 <a href="https://github.com/Rob--W/cors-anywhere">cors-everywhere</a>를 클론해서 CORS 이슈를 해결하였습니다.</li>
   <br/>
 
 ## 프로젝트 후기
