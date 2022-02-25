@@ -25,6 +25,36 @@ const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
     setPeriod(U.ExpirationPeriod(FetchData.expires_at));
   }, 60000);
 
+  const handleClipBoard = (): void => {
+    if (navigator.clipboard) {
+      //ClipBoardAPI 는 IE에서 지원하지않음
+      navigator.clipboard
+        .writeText(window.location.href + FetchData.key)
+        .then(() => {
+          alert(
+            `${window.location.href + FetchData.key} 주소가 복사되었습니다.`
+          );
+        })
+        .catch(() => {
+          alert("다시 시도해주세요.");
+        });
+      return;
+    }
+    if (document.queryCommandSupported("copy")) {
+      const textarea = document.createElement("textarea");
+      textarea.value = window.location.href + FetchData.key;
+      textarea.style.position = "fixed";
+      document.body.append(textarea);
+      textarea.focus();
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      alert(`${window.location.href + FetchData.key} 주소가 복사되었습니다.`);
+      return;
+    } else {
+      return alert("현재 브라우저는 복사하기가 지원되지 않습니다.");
+    }
+  };
   return (
     <TableRow>
       <TableCell>
@@ -38,10 +68,14 @@ const FileTableRow: FC<FileTableRowProps> = ({ FetchData }) => {
           </LinkImage>
           <LinkTexts>
             <LinkTitle>{FetchData.key}</LinkTitle>
-            <LinkUrl>
-              {window.location.href}
-              {FetchData.key}
-            </LinkUrl>
+            {U.isValid(FetchData.expires_at) ? (
+              <LinkUrl onClick={() => handleClipBoard()}>
+                {window.location.href}
+                {FetchData.key}
+              </LinkUrl>
+            ) : (
+              "만료됨"
+            )}
           </LinkTexts>
         </LinkInfo>
         <span />
